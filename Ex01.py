@@ -2,10 +2,10 @@ from collections import UserDict
 
 class Field:
     """Базовий клас для полів запису."""
-    def __init__(self, value):
+    def __init__(self, value: str):
         self.value = value
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str(self.value)
 
 class Name(Field):
@@ -21,7 +21,7 @@ class Phone(Field):
 
 class Record:
     """Клас для зберігання запису контакту, який містить ім'я та список телефонів."""
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = Name(name)
         self.phones = []
 
@@ -42,13 +42,13 @@ class Record:
                 return True
         return False
     
-    def find_phone(self, phone: str):
+    def find_phone(self, phone: str) -> str:
         for p in self.phones:
             if p.value == phone:
                 return p.value
         return None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
 
 class AddressBook(UserDict):
