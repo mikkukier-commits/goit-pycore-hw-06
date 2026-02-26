@@ -1,26 +1,33 @@
 from collections import UserDict
 
+
 class Field:
     """Базовий клас для полів запису."""
+
     def __init__(self, value: str):
         self.value = value
 
     def __str__(self) -> str:
         return str(self.value)
 
+
 class Name(Field):
     """Клас для зберігання імені контакту."""
     pass
 
+
 class Phone(Field):
     """Клас для зберігання номера телефону з валідацією."""
+
     def __init__(self, value: str):
         if not (value.isdigit() and len(value) == 10):
             raise ValueError("Номер телефону повинен містити 10 цифр.")
         super().__init__(value)
 
+
 class Record:
     """Клас для зберігання запису контакту, який містить ім'я та список телефонів."""
+
     def __init__(self, name: str):
         self.name = Name(name)
         self.phones = []
@@ -34,14 +41,14 @@ class Record:
                 self.phones.remove(p)
                 return True
         return False
-    
-    def edit_phone(self, old_phone:str, new_phone:str) -> bool:
+
+    def edit_phone(self, old_phone: str, new_phone: str) -> bool:
         for i, p in enumerate(self.phones):
             if p.value == old_phone:
                 self.phones[i] = Phone(new_phone)
                 return True
         return False
-    
+
     def find_phone(self, phone: str) -> str:
         for p in self.phones:
             if p.value == phone:
@@ -51,14 +58,16 @@ class Record:
     def __str__(self) -> str:
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
 
+
 class AddressBook(UserDict):
     """Клас адресної книги, що зберігає записи і керує ними."""
+
     def add_record(self, record: Record) -> None:
         self.data[record.name.value] = record
 
     def find(self, name: str):
         return self.data.get(name)
-    
+
     def delete(self, name: str) -> None:
         if name in self.data:
             del self.data[name]
